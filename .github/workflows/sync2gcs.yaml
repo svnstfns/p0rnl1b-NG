@@ -1,4 +1,4 @@
-name: Sync to Google Cloud Storage
+name: Upload to GCS
 
 on:
   push:
@@ -10,22 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Check out the repository
-      - name: Checkout code
+      # Checkout the code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      # Set up Google Cloud SDK
-      - name: Set up Google Cloud SDK
+      # Authenticate with Google Cloud
+      - name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      # Setup gcloud CLI
+      - name: Setup Google Cloud SDK
         uses: google-github-actions/setup-gcloud@v1
         with:
-          project_id: pvnkn3t
-          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+          project_id: "pvnkn3t" # Replace with your actual project ID
+          install_components: storage
 
-      # Authenticate with Google Cloud
-      - name: Authenticate to Google Cloud
-        run: gcloud auth activate-service-account --key-file="${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
-
-      # Sync files to Google Cloud Storage
-      - name: Upload files to GCS
+      # Upload files to GCS
+      - name: Upload to GCS
         run: |
-          gsutil rsync -r . gs://pvnkn3t-repo-sync
+          gsutil -m rsync -r . gs://pvnkn3t-repo-sync
