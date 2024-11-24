@@ -28,4 +28,4 @@ jobs:
       # Sync files to Google Cloud Storage
       - name: Upload files to GCS
         run: |
-          gsutil rsync -r . gs://your-bucket-name
+          gsutil rsync -r . gs://pvnkn3t-repo-sync
