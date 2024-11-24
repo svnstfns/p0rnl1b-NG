@@ -1,0 +1,31 @@
+name: Sync to Google Cloud Storage
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload-to-gcs:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Check out the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Google Cloud SDK
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: pvnkn3t
+          service_account_key: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      # Authenticate with Google Cloud
+      - name: Authenticate to Google Cloud
+        run: gcloud auth activate-service-account --key-file="${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}"
+
+      # Sync files to Google Cloud Storage
+      - name: Upload files to GCS
+        run: |
+          gsutil rsync -r . gs://your-bucket-name
