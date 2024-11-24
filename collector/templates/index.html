@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Worker Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Worker Manager</h1>
+
+    <div id="status">
+        <p>Current Worker Status: <strong>{{ worker_status }}</strong></p>
+    </div>
+
+    <form action="/worker/start" method="POST">
+        <button type="submit">Start Worker</button>
+    </form>
+
+    <form action="/worker/stop" method="POST">
+        <button type="submit">Stop Worker</button>
+    </form>
+</body>
+</html>

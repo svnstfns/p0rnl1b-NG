@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "p0rnl1b-ng"
+version = "0.1.0"
+description = ""
+authors = ["Sven Stefanus <sven@wildehilde.net>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
