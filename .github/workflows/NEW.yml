@@ -1,0 +1,30 @@
+name: NEW Upload to GCS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  upload-to-gcs:
+    name: Upload to Google Cloud Storage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_SERVICE_ACCOUNT_KEY }}
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: "pvnkn3t"
+          install_components: gcloud
+
+      - name: Upload Files to GCS
+        run: |
+          gsutil rsync -r ./ gs://pvnkn3t-repo-sync
